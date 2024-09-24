@@ -1,38 +1,311 @@
-.App {
+/* Estilos globales */
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f9f9f9;
+  margin: 0;
+  padding: 0;
+}
+
+h1 {
   text-align: center;
+  color: #333;
+  margin-top: 20px;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.filters {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+.filters input {
+  padding: 10px;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  margin-right: 10px;
+  width: 200px;
+}
+
+.filters button {
+  background-color: #007BFF;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 0 5px;
+  transition: background-color 0.3s;
+}
+
+.filters button:hover {
+  background-color: #0056b3;
+}
+
+/* Estilos para el listado de productos */
+.product-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.product-card {
+  background-color: white;
+  width: 250px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  text-align: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.product-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.product-card img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.product-card h3 {
+  font-size: 1.2em;
+  margin: 15px 0 10px;
+  color: #333;
+}
+
+.product-card p {
+  margin: 5px 0;
+  color: #777;
+  font-size: 0.9em;
+}
+
+.product-card button {
+  background-color: #28a745;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 5px;
+  transition: background-color 0.3s;
+}
+
+.product-card button:hover {
+  background-color: #218838;
+}
+
+.product-card button:last-child {
+  background-color: #dc3545;
+}
+
+.product-card button:last-child:hover {
+  background-color: #c82333;
+}
+
+/* Modal styling */
+.modal {
+  display: none; /* Se muestra solo cuando es activado */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Aquí puedes ajustar la opacidad */
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 500px; /* O el tamaño que desees */
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+
+@keyframes slide-down {
+  from {
+    opacity: 0;
+    transform: translateY(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+.modal-content input {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+}
+
+.modal-actions button {
+  padding: 10px 20px;
+  margin: 10px 5px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.modal-actions button:nth-child(1) {
+  background-color: #007BFF;
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.modal-actions button:nth-child(2) {
+  background-color: #6c757d;
+  color: white;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
+.modal-actions button:nth-child(3) {
+  background-color: #dc3545;
+  color: white;
+}
+
+
+/* Contenedor principal */
+.container {
+  display: flex;
+  flex-direction: row;
+}
+
+/* Botón para abrir/cerrar el menú */
+.menu-button {
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  z-index: 1000;
+}
+
+/* Sidebar cerrado y abierto */
+.sidebar {
+  height: 100vh;
+  background-color: #333;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0;
+  overflow-x: hidden;
+  transition: width 0.3s ease;
+  z-index: 999;
+  padding-top: 60px;
+}
+
+.sidebar.open {
+  width: 250px;
+}
+
+/* Título del sidebar */
+.title {
+  color: white;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Lista y elementos del menú */
+.list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.list-item {
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+  color: white;
+  cursor: pointer;
+}
+
+/* Estilos para el ícono */
+.icon {
+  margin-right: 10px;
+}
+
+/* Enlace a la página de inventario */
+.link {
+  color: white;
+  text-decoration: none;
+  font-size: 18px;
+}
+
+/* Botón para cerrar sesión */
+.logout-button {
+  background-color: transparent;
+  border: none;
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+  text-align: left;
+}
+
+/* Contenido principal de la página */
+.content {
+  margin-left: 60px;
+  padding: 20px;
+}
+
+
+/* Ajusta el espacio para el contenido principal */
+.main-content {
+  transition: margin-left 0.3s ease;
+  margin-left: 250px; /* Espacio reservado para el sidebar */
+  padding: 20px;
+  max-width: 90%; /* Limitar ancho del contenido para evitar bordes */
+  margin: 0 auto; /* Centrar el contenido */
+}
+
+.sidebar-closed {
+  margin-left: 0;
+}
+
+/* Alineación de la barra de búsqueda y botones */
+.inventory-search-bar {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+  padding-left: 20px;  /* Asegurar que no quede cubierto por el ícono del sidebar */
+}
+
+.inventory-filter-buttons {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+  padding-left: 20px;  /* Asegurar que no quede cubierto por el ícono del sidebar */
+}
+
+.inventory-filter-buttons button {
+  margin-right: 10px;
+}
+
+/* Asegura que los productos tengan margen para evitar superposición */
+.product-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+/* Evitar que el contenido toque los bordes en pantallas pequeñas */
+@media (max-width: 768px) {
+  .main-content {
+    margin-left: 0;
+    padding: 20px;
+    max-width: 100%; /* Asegura que el contenido no llegue a los bordes */
   }
 }
+
